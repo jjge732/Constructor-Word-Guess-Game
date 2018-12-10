@@ -20,5 +20,8 @@
   "dependencies": {
     "axios": "^0.18.0",
     "inquirer": "^6.2.1"
+  },
+  "devDependencies": {
+    "node-key-sender": "^1.0.10"
   }
 }

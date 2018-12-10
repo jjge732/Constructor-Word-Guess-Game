@@ -5,7 +5,7 @@ class Letter {
     }
 
     displayChar() {
-        if(guessed) {
+        if(this.guessed) {
             return this.character;
         } else {
             return '_';
@@ -14,7 +14,10 @@ class Letter {
 
     charChecker(char) {
         if (char === this.character) {
-            guessed = true;
+            this.guessed = true;
+            return true;
+        } else {
+            return false;
         }
     }
 };
