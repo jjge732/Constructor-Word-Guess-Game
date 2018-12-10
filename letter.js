@@ -19,4 +19,4 @@ class Letter {
     }
 };
 
-module.exports(Letter);
+module.exports = Letter;

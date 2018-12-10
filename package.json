@@ -1,0 +1,24 @@
+{
+  "name": "Constructor-Word-Guess-Game",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jjge732/Constructor-Word-Guess-Game.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jjge732/Constructor-Word-Guess-Game/issues"
+  },
+  "homepage": "https://github.com/jjge732/Constructor-Word-Guess-Game#readme",
+  "dependencies": {
+    "axios": "^0.18.0",
+    "inquirer": "^6.2.1"
+  }
+}
