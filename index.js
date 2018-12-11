@@ -4,14 +4,16 @@ const inquirer = require('inquirer');
 const ks = require('node-key-sender');
 
 let wordInPlay = new Word(randomWords());
+let playing = false;
 
 inquirer.prompt([{
     type: 'confirm',
     message: 'Would you like to play a game?',
     name: 'play'
 }]).then(res => {
-    if (res.play) {
-        const guessLetter = () => {
+    playing = res.play;
+    const guessLetter = () => {
+        if (playing) {
             console.log(wordInPlay.wordToString());
             inquirer.prompt([{
                 message: 'Guess a letter!',
@@ -22,7 +24,6 @@ inquirer.prompt([{
                     guessLetter();
                 } else if (wordInPlay.checkLetters(res.letter)) {
                     console.log(`Yes! ${res.letter} is in this word!`);
-                    guessLetter();
                     if (wordInPlay.correctGuesses === wordInPlay.word.length) {
                         console.log('\nYou win!');
                         inquirer.prompt([{
@@ -34,13 +35,16 @@ inquirer.prompt([{
                                 wordInPlay = new Word(randomWords()); //new word
                                 guessLetter();
                             } else {
+                                playing = false;
                                 console.log('Ok, goodbye.');
                             }
                         }).catch(err => {
                             console.log(err);
                         })
+                    } else {
+                        guessLetter();
                     }
-                } else {
+                } else if (!wordInPlay.checkLetters(res.letter)) {
                     console.log(`No, ${res.letter} is not in this word.`);
                     wordInPlay.incorrectGuesses++;
                     if (wordInPlay.incorrectGuesses === 6) {
@@ -58,6 +62,7 @@ inquirer.prompt([{
                                 wordInPlay = new Word(randomWords()); //new word
                                 guessLetter();
                             } else {
+                                playing = false;
                                 console.log('Ok, goodbye.');
                             }
                         })
@@ -68,11 +73,11 @@ inquirer.prompt([{
             }).catch(err => {
                 console.log(err);
             })
+        } else {
+            console.log('Okay, goodbye.');
         }
-        guessLetter();
-    } else {
-        console.log('Okay, goodbye.');
     }
+    guessLetter();
 }).catch(err => {
     console.log(err);
 })
