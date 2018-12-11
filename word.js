@@ -1,9 +1,10 @@
 const Letter = require('./letter.js');
 
 class Word {
-    constructor(word, correct = 0) {
+    constructor(word) {
         this.word = [];
-        this.correctGuesses = correct;
+        this.correctGuesses = 0;
+        this.incorrectGuesses = 0;
         for (let i = 0; i < word.length; i++) {
             this.word.push(new Letter([...word][i]));
         }
@@ -20,7 +21,7 @@ class Word {
         for (let i = 0; i < this.word.length; i++) {
             if (this.word[i].charChecker(guess)) {
                 status = true;
-                console.log(this.correctGuesses);
+                this.correctGuesses++;
             };
         }
         return status;
