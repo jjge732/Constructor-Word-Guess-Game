@@ -1,11 +1,9 @@
 const Word = require('./word.js');
-const axios = require('axios');
+const randomWords = require('random-words');
 const inquirer = require('inquirer');
 const ks = require('node-key-sender');
 
-
-
-let wordInPlay = new Word('hello');
+let wordInPlay = new Word(randomWords());
 
 inquirer.prompt([{
     type: 'confirm',
@@ -13,8 +11,6 @@ inquirer.prompt([{
     name: 'play'
 }]).then(res => {
     if (res.play) {
-        console.log(wordInPlay.correctGuesses);
-        console.log(wordInPlay.word.length);
         const guessLetter = () => {
             console.log(wordInPlay.wordToString());
             inquirer.prompt([{
@@ -28,32 +24,38 @@ inquirer.prompt([{
                     console.log(`Yes! ${res.letter} is in this word!`);
                     guessLetter();
                     if (wordInPlay.correctGuesses === wordInPlay.word.length) {
-                    console.log('\nYou win!');
-                    inquirer.prompt([{
-                        type: 'confirm',
-                        message: 'Play again?',
-                        name: 'again'
-                    }]).then(res => {
-                        if (res.again) {
-                            wordInPlay = new Word('goodbye'); //new word
-                            guessLetter();
-                        } else {
-                            console.log('Ok, goodbye.');
-                        }
-                    })
-                    }
-                } else {
-                    console.log(`No, ${res.letter} is not in this word.`);
-                    wordInPlay.incorrectGuesses++;
-                    if (wordInPlay.incorrectGuesses === 6) {
-                        console.log('You are out of guesses!');
+                        console.log('\nYou win!');
                         inquirer.prompt([{
                             type: 'confirm',
                             message: 'Play again?',
                             name: 'again'
                         }]).then(res => {
                             if (res.again) {
-                                wordInPlay = new Word('goodbye'); //new word
+                                wordInPlay = new Word(randomWords()); //new word
+                                guessLetter();
+                            } else {
+                                console.log('Ok, goodbye.');
+                            }
+                        }).catch(err => {
+                            console.log(err);
+                        })
+                    }
+                } else {
+                    console.log(`No, ${res.letter} is not in this word.`);
+                    wordInPlay.incorrectGuesses++;
+                    if (wordInPlay.incorrectGuesses === 6) {
+                        console.log('You are out of guesses!');
+                        for (let i = 0; i < wordInPlay.word.length; i++) {
+                            wordInPlay.word[i].guessed = true;
+                        }
+                        console.log(`The last word was ${wordInPlay.wordToString()}!`)
+                        inquirer.prompt([{
+                            type: 'confirm',
+                            message: 'Play again?',
+                            name: 'again'
+                        }]).then(res => {
+                            if (res.again) {
+                                wordInPlay = new Word(randomWords()); //new word
                                 guessLetter();
                             } else {
                                 console.log('Ok, goodbye.');

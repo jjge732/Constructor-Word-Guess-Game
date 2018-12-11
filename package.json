@@ -18,8 +18,8 @@
   },
   "homepage": "https://github.com/jjge732/Constructor-Word-Guess-Game#readme",
   "dependencies": {
-    "axios": "^0.18.0",
-    "inquirer": "^6.2.1"
+    "inquirer": "^6.2.1",
+    "random-words": "^1.1.0"
   },
   "devDependencies": {
     "node-key-sender": "^1.0.10"
