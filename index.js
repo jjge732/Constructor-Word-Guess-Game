@@ -5,6 +5,7 @@ const ks = require('node-key-sender');
 
 let wordInPlay = new Word(randomWords());
 let playing = false;
+let guessedLetters = [];
 
 inquirer.prompt([{
     type: 'confirm',
@@ -22,8 +23,12 @@ inquirer.prompt([{
                 if (res.letter.length !== 1 || [...ks.getKeyCode(res.letter)].length > 1) {
                     console.log('Please guess a letter.')
                     guessLetter();
+                } else if (guessedLetters.indexOf(res.letter) !== -1) {
+                    console.log(`${res.letter} has already been guessed.`)
+                    guessLetter();
                 } else if (wordInPlay.checkLetters(res.letter)) {
                     console.log(`Yes! ${res.letter} is in this word!`);
+                    guessedLetters.push(res.letter);
                     if (wordInPlay.correctGuesses === wordInPlay.word.length) {
                         console.log('\nYou win!');
                         inquirer.prompt([{
@@ -47,6 +52,7 @@ inquirer.prompt([{
                 } else if (!wordInPlay.checkLetters(res.letter)) {
                     console.log(`No, ${res.letter} is not in this word.`);
                     wordInPlay.incorrectGuesses++;
+                    guessedLetters.push(res.letter);
                     if (wordInPlay.incorrectGuesses === 6) {
                         console.log('You are out of guesses!');
                         for (let i = 0; i < wordInPlay.word.length; i++) {
