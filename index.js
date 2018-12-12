@@ -15,11 +15,12 @@ inquirer.prompt([{
     playing = res.play;
     const guessLetter = () => {
         if (playing) {
-            console.log(wordInPlay.wordToString());
+            console.log('\n' + wordInPlay.wordToString() + '\n');
             inquirer.prompt([{
                 message: 'Guess a letter!',
                 name: 'letter'
             }]).then(res => {
+                console.log();
                 if (res.letter.length !== 1 || [...ks.getKeyCode(res.letter)].length > 1) {
                     console.log('Please guess a letter.')
                     guessLetter();
@@ -30,7 +31,7 @@ inquirer.prompt([{
                     console.log(`Yes! ${res.letter} is in this word!`);
                     guessedLetters.push(res.letter);
                     if (wordInPlay.correctGuesses === wordInPlay.word.length) {
-                        console.log('\nYou win!');
+                        console.log('\nYou win!\n');
                         inquirer.prompt([{
                             type: 'confirm',
                             message: 'Play again?',
@@ -42,7 +43,7 @@ inquirer.prompt([{
                                 guessLetter();
                             } else {
                                 playing = false;
-                                console.log('Ok, goodbye.');
+                                console.log('\nOkay, goodbye.');
                             }
                         }).catch(err => {
                             console.log(err);
@@ -55,11 +56,11 @@ inquirer.prompt([{
                     wordInPlay.incorrectGuesses++;
                     guessedLetters.push(res.letter);
                     if (wordInPlay.incorrectGuesses === 6) {
-                        console.log('You are out of guesses!');
+                        console.log('\nYou are out of guesses!\n');
                         for (let i = 0; i < wordInPlay.word.length; i++) {
                             wordInPlay.word[i].guessed = true;
                         }
-                        console.log(`The last word was ${wordInPlay.wordToString()}!`)
+                        console.log(`The last word was ${wordInPlay.wordToString()}!\n`)
                         inquirer.prompt([{
                             type: 'confirm',
                             message: 'Play again?',
@@ -71,7 +72,7 @@ inquirer.prompt([{
                                 guessLetter();
                             } else {
                                 playing = false;
-                                console.log('Ok, goodbye.');
+                                console.log('\nOkay, goodbye.');
                             }
                         })
                     } else {
@@ -82,7 +83,7 @@ inquirer.prompt([{
                 console.log(err);
             })
         } else {
-            console.log('Okay, goodbye.');
+            console.log('\nOkay, goodbye.');
         }
     }
     guessLetter();
