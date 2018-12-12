@@ -38,6 +38,7 @@ inquirer.prompt([{
                         }]).then(res => {
                             if (res.again) {
                                 wordInPlay = new Word(randomWords()); //new word
+                                guessedLetters = [];
                                 guessLetter();
                             } else {
                                 playing = false;
@@ -66,6 +67,7 @@ inquirer.prompt([{
                         }]).then(res => {
                             if (res.again) {
                                 wordInPlay = new Word(randomWords()); //new word
+                                guessedLetters = [];
                                 guessLetter();
                             } else {
                                 playing = false;
