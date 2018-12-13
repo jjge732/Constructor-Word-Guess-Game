@@ -6,6 +6,7 @@ const ks = require('node-key-sender');
 let wordInPlay = new Word(randomWords());
 let playing = false;
 let guessedLetters = [];
+let totalIncorrectGuesses = 7;
 
 inquirer.prompt([{
     type: 'confirm',
@@ -15,7 +16,7 @@ inquirer.prompt([{
     playing = res.play;
     const guessLetter = () => {
         if (playing) {
-            console.log('\n' + wordInPlay.wordToString() + '\n');
+            console.log('\n  ' + wordInPlay.wordToString() + '\n\n' + 'Number of incorrect guesses remaining: ' + (totalIncorrectGuesses - wordInPlay.incorrectGuesses) + '\n');
             inquirer.prompt([{
                 message: 'Guess a letter!',
                 name: 'letter'
@@ -55,7 +56,7 @@ inquirer.prompt([{
                     console.log(`No, ${res.letter} is not in this word.`);
                     wordInPlay.incorrectGuesses++;
                     guessedLetters.push(res.letter);
-                    if (wordInPlay.incorrectGuesses === 6) {
+                    if (wordInPlay.incorrectGuesses === totalIncorrectGuesses) {
                         console.log('\nYou are out of guesses!\n');
                         for (let i = 0; i < wordInPlay.word.length; i++) {
                             wordInPlay.word[i].guessed = true;
